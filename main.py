@@ -1,15 +1,16 @@
 import sys
 import sqlite3
 
-from PyQt5 import uic
-from PyQt5.QtCore import Qt
+from main_ui import Ui_MainWindow as MainUi
+from add_edit_coffee_form_ui import Ui_MainWindow as AddEditCoffeeForm
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 
 
-class AddEditCoffeeWindow(QMainWindow):
+class AddEditCoffeeWindow(QMainWindow, AddEditCoffeeForm):
     def __init__(self, main_window, coffee_info=None):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
 
         self.main_window = main_window
         self.coffee_info = coffee_info
@@ -70,10 +71,10 @@ class AddEditCoffeeWindow(QMainWindow):
             self.statusbar.showMessage('Заполнены не все поля.')
 
 
-class Window(QMainWindow):
+class Window(QMainWindow, MainUi):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
 
         self.initUI()
 
@@ -94,7 +95,7 @@ class Window(QMainWindow):
         :param get_result: True - получение информации из БД, False - изменение БД
         """
 
-        con = sqlite3.connect('coffee.sqlite')
+        con = sqlite3.connect('data/coffee.sqlite')
         cur = con.cursor()
 
         if get_result:
